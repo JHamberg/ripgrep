@@ -1,6 +1,6 @@
 [package]
 name = "grep"
-version = "0.1.9"  #:version
+version = "0.2.0"  #:version
 authors = ["Andrew Gallant <jamslam@gmail.com>"]
 description = """
 Fast line oriented regex searching as a library.
@@ -13,7 +13,11 @@ keywords = ["regex", "grep", "egrep", "search", "pattern"]
 license = "Unlicense/MIT"
 
 [dependencies]
-log = "0.4"
-memchr = "2"
-regex = "1"
-regex-syntax = "0.6"
+grep-matcher = { version = "0.0.1", path = "../grep-matcher" }
+grep-printer = { version = "0.0.1", path = "../grep-printer" }
+grep-regex = { version = "0.0.1", path = "../grep-regex" }
+grep-searcher = { version = "0.0.1", path = "../grep-searcher" }
+
+[features]
+avx-accel = ["grep-searcher/avx-accel"]
+simd-accel = ["grep-searcher/simd-accel"]

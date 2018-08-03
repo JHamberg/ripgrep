@@ -131,6 +131,10 @@ _rg() {
     '--mmap[search using memory maps when possible]'
     "--no-mmap[don't search using memory maps]"
 
+    + '(multiline)' # multiline options
+    '--multiline[permit matching across multiple lines]'
+    $no"--no-multiline[restrict matches to at most one line each]"
+
     + '(only)' # Only-match options
     '(passthru replace)'{-o,--only-matching}'[show only matching part of each line]'
 
