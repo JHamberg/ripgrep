@@ -48,6 +48,15 @@ impl WorkDir {
         }
     }
 
+    /// Like `new`, but also returns a command that whose program is configured
+    /// to ripgrep's executable and has its current working directory set to
+    /// this work dir.
+    pub fn new_with(name: &str) -> (WorkDir, process::Command) {
+        let wd = WorkDir::new(name);
+        let command = wd.command();
+        (wd, command)
+    }
+
     /// Create a new file with the given name and contents in this directory,
     /// or panic on error.
     pub fn create<P: AsRef<Path>>(&self, name: P, contents: &str) {
@@ -106,10 +115,18 @@ impl WorkDir {
 
     /// Creates a new command that is set to use the ripgrep executable in
     /// this working directory.
+    ///
+    /// This also:
+    ///
+    /// * Unsets the `RIPGREP_CONFIG_PATH` environment variable.
+    /// * Sets the `--path-separator` to `/` so that paths have the same output
+    ///   on all systems. Tests that need to check `--path-separator` itself
+    ///   can simply pass it again to override it.
     pub fn command(&self) -> process::Command {
         let mut cmd = process::Command::new(&self.bin());
         cmd.env_remove("RIPGREP_CONFIG_PATH");
         cmd.current_dir(&self.dir);
+        cmd.arg("--path-separator").arg("/");
         cmd
     }
 

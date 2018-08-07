@@ -1,18 +1,14 @@
-/*!
-This module contains *integration* tests. Their purpose is to test the CLI
-interface. Namely, that passing a flag does what it says on the tin.
-
-Tests for more fine grained behavior (like the search or the globber) should be
-unit tests in their respective modules.
-*/
-
 #![allow(dead_code, unused_imports)]
 
 use std::process::Command;
 
 use workdir::WorkDir;
 
+#[macro_use]
+mod macros;
+
 mod hay;
+mod regression;
 mod workdir;
 
 macro_rules! sherlock {
@@ -47,11 +43,14 @@ macro_rules! clean {
 }
 
 fn path(unix: &str) -> String {
+    unix.to_string()
+    /*
     if cfg!(windows) {
         unix.replace("/", "\\")
     } else {
         unix.to_string()
     }
+    */
 }
 
 fn paths(unix: &[&str]) -> Vec<String> {
